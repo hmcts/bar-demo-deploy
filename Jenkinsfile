@@ -1,16 +1,21 @@
 @Library("Reform")
 import uk.gov.hmcts.Ansible
 
-def ansible = new Ansible(this, 'bar')
+def ansibleApI = new Ansible(this, 'bar')
+def ansibleWeb = new Ansible(this, 'bar_web')
 
 lock('bar-demo-deploy') {
 
   try {
     node {
       onMaster {
-        stage('Deploy (Demo') {
+        stage('Deploy API (Demo)') {
           deleteDir()
-          ansible.runDeployPlaybook('', 'demo')
+          ansibleApI.runDeployPlaybook('', 'demo')
+           ansibleApI.runDeployPlaybook('', 'demo')
+        }
+         stage('Deploy Web (Demo)') {
+           ansibleWeb.runDeployPlaybook('', 'demo')
         }
       }
     }
