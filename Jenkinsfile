@@ -12,7 +12,6 @@ lock('bar-demo-deploy') {
         stage('Deploy API (Demo)') {
           deleteDir()
           ansibleApI.runDeployPlaybook('', 'demo')
-           ansibleApI.runDeployPlaybook('', 'demo')
         }
          stage('Deploy Web (Demo)') {
            ansibleWeb.runDeployPlaybook('', 'demo')
