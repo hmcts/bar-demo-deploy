@@ -1,14 +1,16 @@
 @Library("Reform")
 import uk.gov.hmcts.Ansible
-
 def ansibleApI = new Ansible(this, 'bar')
 def ansibleWeb = new Ansible(this, 'bar_web')
-
 lock('bar-demo-deploy') {
-
   try {
     node {
       onMaster {
+        stage('Checkout management configuration') {
+                dir('ansible-management') {
+                    git url: "https://github.com/hmcts/ansible-management", branch: "master", credentialsId: "jenkins-public-github-api-token"
+                }
+        }
         stage('Deploy API (Demo)') {
           deleteDir()
           ansibleApI.runDeployPlaybook('', 'demo')
