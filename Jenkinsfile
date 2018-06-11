@@ -6,13 +6,15 @@ lock('bar-demo-deploy') {
   try {
     node {
       onMaster {
+        stage('Clear down workspace') {
+          deleteDir()
+        }
         stage('Checkout management configuration') {
-                dir('ansible-management') {
-                    git url: "https://github.com/hmcts/ansible-management", branch: "master", credentialsId: "jenkins-public-github-api-token"
-                }
+          dir('ansible-management') {
+            git url: "https://github.com/hmcts/ansible-management", branch: "master", credentialsId: "jenkins-public-github-api-token"
+          }
         }
         stage('Deploy API (Demo)') {
-          deleteDir()
           ansibleApI.runDeployPlaybook('', 'demo')
         }
          stage('Deploy Web (Demo)') {
